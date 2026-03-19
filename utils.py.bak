@@ -1,0 +1,41 @@
+import cv2
+import os
+
+
+def read_video(video_path):
+    """
+    Reads video from a file and returns a list of frames.
+    """
+    if not os.path.exists(video_path):
+        raise FileNotFoundError(f"[ERROR] Video file not found: {video_path}")
+
+    cap = cv2.VideoCapture(video_path)
+    frames = []
+
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        frames.append(frame)
+
+    cap.release()
+    print(f"[INFO] Read {len(frames)} frames from {video_path}")
+    return frames
+
+
+def save_video(frames, output_path, fps=25):
+    """
+    Saves a list of frames to a video file.
+    """
+    if not frames:
+        raise ValueError("[ERROR] No frames to write to video.")
+
+    height, width, _ = frames[0].shape
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
+
+    for frame in frames:
+        out.write(frame)
+
+    out.release()
+    print(f"[INFO] Saved video to {output_path}")

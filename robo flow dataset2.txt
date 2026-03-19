@@ -1,0 +1,13 @@
+url --- https://universe.roboflow.com/match/match-iwuzw/dataset/2#
+
+
+============================================================================
+
+!pip install roboflow
+
+from roboflow import Roboflow
+rf = Roboflow(api_key="BENjZQrkbz3qrW5n2DYl")
+project = rf.workspace("match").project("match-iwuzw")
+version = project.version(2)
+dataset = version.download("yolov5")
+                
